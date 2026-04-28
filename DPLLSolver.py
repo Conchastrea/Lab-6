@@ -106,7 +106,7 @@ def theLoop(formula, branch):
 
         if branch % 100 == 0 and branch != 0:
             print(branch)
-            return False, newFormula.model, branch
+            return None
 
         # assigns the vars by most common
         for x in range(len(maxTuples)):
