@@ -133,16 +133,18 @@ def theLoop(formula, branch):
                 # print("branch " + str(branch))
                 # print("solnModel", solnModel)
                 if result == True:
-                    print("Result True")
+                    # print("Result True")
                     return True, solnModel, finalCount
 
-                # # test, opposite result? but undo result
-                # newFormula.model = formula.model.copy()
-                # newFormula.assign(-chosen)
-                # result2, solnModel2, finalCount2 = theLoop(newFormula, branch)
-                # # print(solnModel)
-                # if result2 == True:
-                #     return True, solnModel2, finalCount2
+                # test, opposite result? but undo result
+                newFormula.model = formula.model.copy()
+                newFormula.clauses = formula.clauses.copy()
+                newFormula.assign(-chosen)
+                result, solnModel, finalCount = theLoop(newFormula, branch)
+                # print(solnModel)
+                if result == True:
+                    # print("Result True")
+                    return True, solnModel, finalCount
 
                 # undo assignments, need to do this anymore with the way formula is handled?
                 newFormula.model = formula.model.copy()
