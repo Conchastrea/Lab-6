@@ -75,45 +75,26 @@ def theLoop(formula, branch):
         minLen = min(len(c) for c in formula.clauses)
         # lengths = {}
 
-        # creates a dictionary of all lengths
-        # for l in clauseLen:
-        #     lengths[l] = 1
-
-        # iterates over all lengths
-        # for l in lengths.keys():
-        #     minLen = l
-
         maxVar = {}
         for c in formula.clauses:
             if len(c) == minLen:
                 for var in c:
                     maxVar[var] = maxVar.get(var, 0) + 1
 
-
         # print()
         # print("max", maxVar)
         # print()
 
-        # if branch % 25 == 0 and branch != 0:
-        #     print(branch)
-        #     return None
-
         # checks the var is actually still in a clause
-        if maxVar != {}:
+        if maxVar:
             branch += 1
-            chosen = max(maxVar, key=maxVar.get)
-            formula.assign(chosen)
             # print("chosen", chosen, "model", formula.model)
-
-            # tempFormula = Formula.Formula()
-            # tempFormula.clauses = formula.clauses.copy()
-            # tempFormula.model = formula.model.copy()
-            # tempFormula.n = formula.n
-            # tempFormula.m = formula.m
-            # tempFormula.assign(chosen)
 
             savedClauses = [c[:] for c in formula.clauses]
             savedModel = dict(formula.model)
+
+            chosen = max(maxVar, key=maxVar.get)
+            formula.assign(chosen)
 
             # print("clauses", tempFormula.clauses)
             # repeat! first with given result
@@ -129,8 +110,10 @@ def theLoop(formula, branch):
             formula.model = savedModel
             formula.clauses = savedClauses
 
+            finalCount = finalCount + 1
+
             formula.assign(-chosen)
-            result, solnModel, finalCount2 = theLoop(formula, branch)
+            result, solnModel, finalCount2 = theLoop(formula, finalCount)
             # print(solnModel)
             if result == True:
                 # print("Result True")
@@ -139,8 +122,10 @@ def theLoop(formula, branch):
             # print("formula", formula.model,"Formula", formula.model)
             # print()
 
+            return False, solnModel, finalCount2
+
     # print("End Tuple False")
-    return False, formula.model, finalCount2
+    return False, formula.model, branch
 
 # for printing the results of the file
 def printSoln(formula, model, boolean, branch, givenFile):
@@ -165,11 +150,13 @@ def printSoln(formula, model, boolean, branch, givenFile):
         varList = list(model.keys())
 
         # a loop to write eachs of the vertices and it's colors
-        for x in range(len(varList)):
-            if model[varList[x]] == True:
-                solnFile.write(f"v {x+1} \n")
+        for x in range(1,formula.n+1):
+            if x not in model.keys():
+                solnFile.write(f"v {x} \n")
+            elif model[x] == True:
+                solnFile.write(f"v {x} \n")
             else:
-                solnFile.write(f"v -{x+1} \n")
+                solnFile.write(f"v -{x} \n")
     else:
         # writes header which is everything
         solnFile.write(f"s cnf 0 {formula.n} {formula.m}\n")
