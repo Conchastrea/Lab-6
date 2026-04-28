@@ -104,13 +104,15 @@ def theLoop(formula, branch):
         print("max", maxTuples)
         print()
 
+        if branch % 100 == 0:
+            print(branch)
+            return False, newFormula.model, branch
+
         # assigns the vars by most common
         for x in range(len(maxTuples)):
             # checks the var is actually still in a clause
             if maxTuples[x][0] != 0:
                 branch += 1
-                if branch % 100 == 0:
-                    print(str(branch)+" ",end="")
 
                 chosen = maxTuples[x][1]
                 newFormula.assign(chosen)
@@ -146,9 +148,9 @@ def theLoop(formula, branch):
                 newFormula.model = formula.model.copy()
                 newFormula.clauses = formula.clauses.copy()
 
-                # print("newFormula", newFormula.model)
-                # print("Formula", formula.model)
-                # print()
+                print("newFormula", newFormula.model)
+                print("Formula", formula.model)
+                print()
 
     print("End Tuple False")
     return False, formula.model, branch
