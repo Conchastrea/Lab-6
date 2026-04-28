@@ -18,54 +18,54 @@ def theLoop(formula, branch):
     newFormula.n = formula.n
     newFormula.m = formula.m
 
-    print()
-    print("Start", "newFormula", newFormula.model, "Formula", formula.model)
+    # print()
+    # print("Start", "newFormula", newFormula.model, "Formula", formula.model)
 
     # check for tautology and contradiction
     if newFormula.istrue() == True:
-        print("Taut True")
+        # print("Taut True")
         return True, newFormula.model, branch
     elif newFormula.isfalse() == True:
-        print("Contra False")
+        # print("Contra False")
         return False, newFormula.model, branch
 
     # check for units
     unit = newFormula.unit()
     while unit != None:
-        print("unit", unit)
+        # print("unit", unit)
         newFormula.assign(unit)
         if newFormula.istrue() == True:
-            print("Unit True")
+            # print("Unit True")
             return True, newFormula.model, branch
         elif newFormula.isfalse() == True:
-            print("Unit False")
+            # print("Unit False")
             return False, newFormula.model, branch
         unit = newFormula.unit()
 
     # check for pure literals
     pure = newFormula.pure()
     while pure != None:
-        print("pure", pure)
+        # print("pure", pure)
         newFormula.assign(pure)
         if newFormula.istrue() == True:
-            print("Pure True")
+            # print("Pure True")
             return True, formula.model, branch
         elif newFormula.isfalse() == True:
-            print("Pure False")
+            # print("Pure False")
             return False, newFormula.model, branch
         pure = newFormula.pure()
 
     # check for tautology and contradiction
     if newFormula.istrue() == True:
-        print("Taut True")
+        # print("Taut True")
         return True, newFormula.model, branch
     elif newFormula.isfalse() == True:
-        print("Contra False")
+        # print("Contra False")
         return False, newFormula.model, branch
 
     # if any changes were made to newFormula, they get copied here
-    formula.model = newFormula.model.copy()
-    formula.clauses = newFormula.clauses.copy()
+    # formula.model = newFormula.model.copy()
+    # formula.clauses = newFormula.clauses.copy()
 
     # heuristic search
     # print("Clauses", newFormula.clauses)
@@ -100,13 +100,13 @@ def theLoop(formula, branch):
         maxTuples = [(max[i], i) for i in max.keys()]
         maxTuples.sort(reverse=True)
 
-        print()
-        print("max", maxTuples)
-        print()
+        # print()
+        # print("max", maxTuples)
+        # print()
 
-        if branch % 25 == 0 and branch != 0:
-            print(branch)
-            return None
+        # if branch % 25 == 0 and branch != 0:
+        #     print(branch)
+        #     return None
 
         # assigns the vars by most common
         for x in range(len(maxTuples)):
@@ -116,7 +116,7 @@ def theLoop(formula, branch):
 
                 chosen = maxTuples[x][1]
                 newFormula.assign(chosen)
-                print("chosen", chosen, "model", newFormula.model)
+                # print("chosen", chosen, "model", newFormula.model)
 
                 # tempFormula = Formula.Formula()
                 # tempFormula.clauses = newFormula.clauses.copy()
@@ -148,11 +148,10 @@ def theLoop(formula, branch):
                 newFormula.model = formula.model.copy()
                 newFormula.clauses = formula.clauses.copy()
 
-                print("newFormula", newFormula.model)
-                print("Formula", formula.model)
-                print()
+                # print("newFormula", newFormula.model,"Formula", formula.model)
+                # print()
 
-    print("End Tuple False")
+    # print("End Tuple False")
     return False, formula.model, branch
 
 # for printing the results of the file
