@@ -104,7 +104,7 @@ def theLoop(formula, branch):
         print("max", maxTuples)
         print()
 
-        if branch % 50 == 0 and branch != 0:
+        if branch % 25 == 0 and branch != 0:
             print(branch)
             return None
 
